@@ -98,6 +98,7 @@ st.markdown("""
         background: rgba(255, 255, 255, 0.03) !important;
         color: #e2e8f0 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        white-space: nowrap !important; /* Button text breaks strictly avoided */
     }
     .stButton button[kind="secondary"]:hover {
         background: rgba(255, 255, 255, 0.08) !important;
@@ -201,8 +202,9 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 
 # ==========================================
 # 6. MAIN WORKSPACE UI
-# =========================================
-st.markdown('<h1 class="main-title" style="text-align: center;">Truthguard AI</h1>', unsafe_allow_html=True)
+# ==========================================
+st.markdown('<div style="text-align: center;"><span class="badge">PRO AUDITOR SUITE v2.3</span></div>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title" style="text-align: center;">🛡️ Truthguard AI</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">fake news detective system</p>', unsafe_allow_html=True)
 
 if model is None or vectorizer is None:
@@ -213,8 +215,8 @@ else:
     
     st.write("### 📥 Article Workspace")
     
-    # Sample Controls Row
-    col_btn1, col_btn2, col_btn3, _ = st.columns([1.5, 1.5, 1, 4])
+    # Sample Controls Row with optimized column spaces (prevents squeezed text on buttons)
+    col_btn1, col_btn2, col_btn3, _ = st.columns([2.5, 2.5, 2, 3])
 
     if col_btn1.button("📋 Load Sample Real News", type="secondary"):
         st.session_state.input_text = SAMPLE_REAL
@@ -258,7 +260,7 @@ else:
                     else:
                         real_prob, fake_prob = 12.10, 87.90
 
-                # Save current results in session_state before drawing UI so we don't need immediate rerun
+                # Save current results in session_state before drawing UI
                 st.session_state.history.append({
                     "preview": user_input[:85] + "..." if len(user_input) > 85 else user_input,
                     "verdict": "REAL" if (prediction == 1 or real_prob > fake_prob) else "FAKE",
