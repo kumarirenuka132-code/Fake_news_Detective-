@@ -124,7 +124,7 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 # ==========================================
 # 5. USER INTERFACE
 # ==========================================
-st.markdown('<h1 class="main-title">📰 Veritas AI</h1>', unsafe_with_html_allowed=True)
+st.markdown('<h1 class="main-title">📰 Veritas AI</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Advanced Financial Transparency & Fake News Auditing System</p>', unsafe_with_html_allowed=True)
 
 if model is None or vectorizer is None:
