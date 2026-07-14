@@ -8,11 +8,17 @@ import string
 # 1. PAGE CONFIGURATION & THEME SETUP
 # ==========================================
 st.set_page_config(
-    page_title="Truthguard AI | Professional Audit Suite",
+    page_title="Truthguard | Professional Audit Suite",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Initialize Session States
+if "input_text" not in st.session_state:
+    st.session_state.input_text = ""
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 # Premium Enterprise Glassmorphism UI Styling
 st.markdown("""
@@ -47,6 +53,7 @@ st.markdown("""
         letter-spacing: -0.03em;
     }
     .subtitle {
+        text-align: center;
         color: #64748b;
         font-size: 1.15rem;
         margin-bottom: 2.5rem;
@@ -122,16 +129,38 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. SIDEBAR UTILITIES & INFORMATION
+# 2. SIDEBAR UTILITIES, INFORMATION & HISTORY
 # ==========================================
 with st.sidebar:
     st.markdown("### 🛡️ System Controls")
     st.markdown("---")
-    st.markdown("**Engine Status:** `Operational`🟢")
+    st.markdown("**Engine Status:** `Operational` 🟢")
     st.markdown("**Primary Model:** `XGBoost Classifier` ⚡")
     st.markdown("**Feature Extraction:** `TF-IDF Vectorizer` 🧪")
     st.markdown("---")
     st.info("💡 **Tip:** Use the pre-loaded operational samples to test integrity metrics.")
+    
+    # Audit History UI Section
+    st.markdown("### 🕒 Audit History")
+    if not st.session_state.history:
+         st.write("No audits executed in this session yet.")
+    else:
+         if st.button("🧹 Clear History", type="secondary"):
+              st.session_state.history = []
+              st.rerun()
+              
+         # Render recent audits (Newest first)
+         for idx, audit in enumerate(reversed(st.session_state.history)):
+              color = "#10b981" if audit["verdict"] == "REAL" else "#ef4444"
+              st.markdown(f"""
+                  <div style="background: rgba(255, 255, 255, 0.03); border-left: 4px solid {color}; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <strong style="color: {color}; font-size: 0.9rem;">{audit['verdict']}</strong> 
+                      <span style="font-size: 0.75rem; color: #94a3b8; float: right;">Real: {audit['real_score']}</span>
+                      <p style="font-size: 0.8rem; margin: 6px 0 0 0; color: #cbd5e1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                          "{audit['preview']}"
+                      </p>
+                  </div>
+              """, unsafe_allow_html=True)
 
 # ==========================================
 # 3. MODEL & VECTORIZER LOAD
@@ -172,7 +201,7 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 # ==========================================
 # 6. MAIN WORKSPACE UI
 # ==========================================
-st.markdown('<div style="text-align: center;"><span class="badge">PRO AUDITOR SUITE v2.1</span></div>', unsafe_allow_html=True)
+st.markdown('<div style="text-align: center;"><span class="badge">PRO AUDITOR SUITE v2.2</span></div>', unsafe_allow_html=True)
 st.markdown('<h1 class="main-title" style="text-align: center;">Truthguard AI</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">fake news detective system</p>', unsafe_allow_html=True)
 
@@ -186,9 +215,6 @@ else:
     
     # Sample Controls Row
     col_btn1, col_btn2, col_btn3, _ = st.columns([1.5, 1.5, 1, 4])
-    
-    if "input_text" not in st.session_state:
-        st.session_state.input_text = ""
 
     if col_btn1.button("📋 Load Sample Real News", type="secondary"):
         st.session_state.input_text = SAMPLE_REAL
@@ -229,6 +255,14 @@ else:
                     else:
                         real_prob, fake_prob = 12.10, 87.90
 
+                # Appending result to session history list
+                st.session_state.history.append({
+                    "preview": user_input[:85] + "..." if len(user_input) > 85 else user_input,
+                    "verdict": "REAL" if (prediction == 1 or real_prob > fake_prob) else "FAKE",
+                    "real_score": f"{real_prob:.1f}%",
+                    "fake_score": f"{fake_prob:.1f}%"
+                })
+
                 # Display Section
                 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                 st.write("### 📊 Metrics Audit Report")
@@ -264,3 +298,6 @@ else:
                     """, unsafe_allow_html=True)
                 
                 st.markdown('</div>', unsafe_allow_html=True)
+                
+                # Rerun to update sidebar history immediately after calculation
+                st.rerun()
