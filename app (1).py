@@ -77,27 +77,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. MODEL & VECTORIZER LOADING
+# 2. MODEL & VECTORIZER LOADING (Updated Filenames)
 # ==========================================
 @st.cache_resource
 def load_assets():
     try:
-        # Tries loading standard pickle names
-        with open("fake_news_model.pkl", "rb") as f:
+        # Loading exact user-defined filenames
+        with open("model.pkl", "rb") as f:
             model = pickle.load(f)
-        with open("tfidf_vectorizer.pkl", "rb") as v:
+        with open("vectorizer.pkl", "rb") as v:
             vectorizer = pickle.load(v)
         return model, vectorizer
     except FileNotFoundError:
-        # Fallback names if saved differently
-        try:
-            with open("fake_news_model.pkl", "rb") as f:
-                model = pickle.load(f)
-            with open("tfidf_vectorizer.pkl", "rb") as v:
-                vectorizer = pickle.load(v)
-            return model, vectorizer
-        except:
-            return None, None
+        return None, None
 
 model, vectorizer = load_assets()
 
@@ -128,7 +120,7 @@ st.markdown('<h1 class="main-title">📰 Veritas AI</h1>', unsafe_allow_html=Tru
 st.markdown('<p class="subtitle">Advanced Financial Transparency & Fake News Auditing System</p>', unsafe_allow_html=True)
 
 if model is None or vectorizer is None:
-    st.error("⚠️ Model or Vectorizer files (`fake_news_model.pkl` / `tfidf_vectorizer.pkl`) not found in the current directory. Please make sure they are uploaded.")
+    st.error("⚠️ Model or Vectorizer files (`model.pkl` / `vectorizer.pkl`) not found in the current directory. Please make sure they are uploaded to your GitHub repository.")
 else:
     # Responsive Column Layout for Quick Actions
     st.write("### 📥 Input News Article")
