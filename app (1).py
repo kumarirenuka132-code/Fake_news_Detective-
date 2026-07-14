@@ -201,8 +201,7 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 
 # ==========================================
 # 6. MAIN WORKSPACE UI
-# ==========================================
-st.markdown('<div style="text-align: center;"><span class="badge">PRO AUDITOR SUITE v2.3</span></div>', unsafe_allow_html=True)
+# =========================================
 st.markdown('<h1 class="main-title" style="text-align: center;">Truthguard AI</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">fake news detective system</p>', unsafe_allow_html=True)
 
