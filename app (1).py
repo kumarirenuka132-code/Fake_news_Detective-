@@ -8,7 +8,7 @@ import string
 # 1. PAGE CONFIGURATION & THEMING
 # ==========================================
 st.set_page_config(
-    page_title="Truthguard | AI Fake News Detective",
+    page_title="Veritas | AI Fake News Detective",
     page_icon="📰",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -77,12 +77,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. MODEL & VECTORIZER LOADING
+# 2. MODEL & VECTORIZER LOADING (Updated Filenames)
 # ==========================================
 @st.cache_resource
 def load_assets():
     try:
-        # Loading your exact model filenames
+        # Loading exact user-defined filenames
         with open("model.pkl", "rb") as f:
             model = pickle.load(f)
         with open("vectorizer.pkl", "rb") as v:
@@ -116,8 +116,8 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 # ==========================================
 # 5. USER INTERFACE
 # ==========================================
-st.markdown('<h1 class="main-title">📰 Truthguard AI</h1>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">fake news detective system</p>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-title">📰 Veritas AI</h1>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle">Advanced Financial Transparency & Fake News Auditing System</p>', unsafe_allow_html=True)
 
 if model is None or vectorizer is None:
     st.error("⚠️ Model or Vectorizer files (`model.pkl` / `vectorizer.pkl`) not found in the current directory. Please make sure they are uploaded to your GitHub repository.")
