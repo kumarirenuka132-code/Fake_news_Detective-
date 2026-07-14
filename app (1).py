@@ -137,7 +137,6 @@ with st.sidebar:
     st.markdown("**Engine Status:** `Operational` 🟢")
     st.markdown("**Primary Model:** `XGBoost Classifier` ⚡")
     st.markdown("**Feature Extraction:** `TF-IDF Vectorizer` 🧪")
-    # Added Overall Model Training Accuracy
     st.markdown("**Model Accuracy:** `98.2%` 🎯")
     st.markdown("---")
     st.info("💡 **Tip:** Use the pre-loaded operational samples to test integrity metrics.")
@@ -220,10 +219,13 @@ else:
 
     if col_btn1.button("📋 Load Sample Real News", type="secondary"):
         st.session_state.input_text = SAMPLE_REAL
+        st.rerun()  # Instantly update screen
     if col_btn2.button("🚫 Load Sample Fake News", type="secondary"):
         st.session_state.input_text = SAMPLE_FAKE
+        st.rerun()  # Instantly update screen
     if col_btn3.button("🔄 Clear Console", type="secondary"):
         st.session_state.input_text = ""
+        st.rerun()  # Instantly update screen
 
     # Editor input
     user_input = st.text_area(
@@ -257,7 +259,7 @@ else:
                     else:
                         real_prob, fake_prob = 12.10, 87.90
 
-                # Appending result to session history list
+                # Save current results in session_state before drawing UI so we don't need immediate rerun
                 st.session_state.history.append({
                     "preview": user_input[:85] + "..." if len(user_input) > 85 else user_input,
                     "verdict": "REAL" if (prediction == 1 or real_prob > fake_prob) else "FAKE",
@@ -304,6 +306,3 @@ else:
                     """, unsafe_allow_html=True)
                 
                 st.markdown('</div>', unsafe_allow_html=True)
-                
-                # Rerun to update sidebar history immediately after calculation
-                st.rerun()
