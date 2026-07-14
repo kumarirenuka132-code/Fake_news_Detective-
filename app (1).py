@@ -125,7 +125,7 @@ SAMPLE_FAKE = """BREAKING: Visual Evidence Proves Massive Underground Network Di
 # 5. USER INTERFACE
 # ==========================================
 st.markdown('<h1 class="main-title">📰 Veritas AI</h1>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Advanced Financial Transparency & Fake News Auditing System</p>', unsafe_with_html_allowed=True)
+st.markdown('<p class="subtitle">Advanced Financial Transparency & Fake News Auditing System</p>', unsafe_allow_html=True)
 
 if model is None or vectorizer is None:
     st.error("⚠️ Model or Vectorizer files (`fake_news_model.pkl` / `tfidf_vectorizer.pkl`) not found in the current directory. Please make sure they are uploaded.")
@@ -204,7 +204,7 @@ else:
                                 This article displays structural cohesion, metadata markers, and stylistic signatures consistent with verified mainstream reporting. Verification metrics place confidence at <b>{real_prob:.2f}%</b>.
                             </p>
                         </div>
-                    """, unsafe_with_html_allowed=True)
+                    """, unsafe_allow_html=True)
                 else:
                     st.markdown(f"""
                         <div class="result-card fake-card">
@@ -213,4 +213,4 @@ else:
                                 Warning: Linguistic profiling indicates hyper-partisan patterns, emotional variance, or missing source verification anchors indicative of simulated reporting. Potential misinformation index is at <b>{fake_prob:.2f}%</b>.
                             </p>
                         </div>
-                    """, unsafe_with_html_allowed=True)
+                    """, unsafe_allow_html=True)
