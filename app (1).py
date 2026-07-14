@@ -74,7 +74,7 @@ st.markdown("""
         border-color: #ef4444;
     }
     </style>
-""", unsafe_with_html_allowed=True)
+""", unsafe_allow_html=True)
 
 # ==========================================
 # 2. MODEL & VECTORIZER LOADING
